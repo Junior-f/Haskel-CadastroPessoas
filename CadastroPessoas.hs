@@ -1,14 +1,12 @@
 
 type Cadastro = [Pessoa]
 
--- STRUCT PESSOA 
 data Pessoa = Pessoa
   { nome :: String
    ,idade :: Int
    ,endereco :: Endereco
   } deriving (Show, Eq)
 
--- STRUCT ENDERECO
 data Endereco = Endereco
   { rua :: String
    ,casa :: Int
@@ -20,7 +18,6 @@ data Endereco = Endereco
 ordenar :: Cadastro -> Cadastro
 ordenar [] = []
 ordenar (x : xs) = ordenar [e|e<-xs, nome e < nome x] ++ [x] ++ ordenar [e|e<-xs, nome e >= nome x]
-
 
 -- funçao para inserir uma pessoa na lista
 inserirPessoa :: Cadastro -> IO Cadastro
@@ -40,6 +37,7 @@ inserirPessoa cadastro = do
   let pessoaOrdenada = ordenar(pessoa : cadastro)
   putStrLn " Pessoa Cadastrada com Sucesso"
   return pessoaOrdenada
+
 
 
 -- função para localizar uma determinada pessoa pelo seu nome.
@@ -92,12 +90,14 @@ atualizarDados cadastro = do
   return pessoaOrdenada
 
 --funçao para contar quantas pessoas moram em uma determinda cidade
+
 contarPessoas :: Cadastro -> String -> Int
 contarPessoas [] _ = 0
 contarPessoas (x : xs) cidadeP
   | cidadeP == cidade (endereco x) = 1 + contarPessoas xs cidadeP
   | otherwise = contarPessoas xs cidadeP
   
+
 
 relatorio :: Cadastro -> IO ()
 relatorio [] = do putStrLn "\nCADASTRO VAZIO"
