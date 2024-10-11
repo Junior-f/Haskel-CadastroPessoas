@@ -17,14 +17,12 @@ data Endereco = Endereco
 
 
 -- funçao para ordenar as pessoas na lista em ordem alfabetica
-
 ordenar :: Cadastro -> Cadastro
 ordenar [] = []
 ordenar (x : xs) = ordenar [e|e<-xs, nome e < nome x] ++ [x] ++ ordenar [e|e<-xs, nome e >= nome x]
 
 
 -- funçao para inserir uma pessoa na lista
-
 inserirPessoa :: Cadastro -> IO Cadastro
 inserirPessoa cadastro = do
   putStrLn "\n-------INSERIR PESSOA-------"
@@ -45,7 +43,6 @@ inserirPessoa cadastro = do
 
 
 -- função para localizar uma determinada pessoa pelo seu nome.
-
 buscaPessoa :: Cadastro -> String -> [Pessoa]
 buscaPessoa [] _ = []
 buscaPessoa (x:xs) nomeP
@@ -61,11 +58,7 @@ localizarPessoa cadastro = do
   let pessoa = buscaPessoa cadastro nome
   print pessoa
 
-
-
-
 --função que recebe o cadastro de uma pessoa e atualiza suas informações na lista ou adiciona uma nova na ordem correta caso ela ainda não tenha sido cadastrada.
-
 busca :: Cadastro -> Pessoa -> Cadastro
 busca [] pessoa = [pessoa]
 busca (x : xs) pessoa
@@ -75,10 +68,10 @@ busca (x : xs) pessoa
 atualizarPessoa :: Cadastro -> Pessoa -> Cadastro
 atualizarPessoa cadastro pessoa = busca cadastro pessoa
 
+
 -- Ao atualizar a pessoa ele faz diferenca de maiusculas e minusculas ex: Junior /= junior, ex: Maria /= maria
 --não sao a mesma pessoa, e na ordenaçao tambem as maiusculas irao ficar na frente de todas as minusculas
 -- ex Yuri ira ficar na frente de ana.
-
 atualizarDados :: Cadastro -> IO Cadastro
 atualizarDados cadastro = do
   putStrLn "\n-------ATUALIZAR DADOS DA PESSOA-------"
@@ -98,8 +91,6 @@ atualizarDados cadastro = do
   putStrLn "Dados da pessoa Atualizados"
   return pessoaOrdenada
 
-
-
 --funçao para contar quantas pessoas moram em uma determinda cidade
 contarPessoas :: Cadastro -> String -> Int
 contarPessoas [] _ = 0
@@ -107,7 +98,7 @@ contarPessoas (x : xs) cidadeP
   | cidadeP == cidade (endereco x) = 1 + contarPessoas xs cidadeP
   | otherwise = contarPessoas xs cidadeP
   
-
+  
 relatorio :: Cadastro -> IO ()
 relatorio [] = do putStrLn "\nCADASTRO VAZIO"
 relatorio lista = do
