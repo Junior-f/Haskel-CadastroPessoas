@@ -43,9 +43,9 @@ inserirPessoa cadastro = do
 
 
 -- função para localizar uma determinada pessoa pelo seu nome.
-buscaPessoa :: Cadastro -> String -> [Pessoa]
-buscaPessoa [] _ = []
-buscaPessoa (x:xs) nomeP
+buscarPessoa :: Cadastro -> String -> [Pessoa]
+buscarPessoa [] _ = []
+buscarPessoa (x:xs) nomeP
   | nomeP == nome x = [x]
   | otherwise = buscaPessoa xs nomeP
 
@@ -59,9 +59,9 @@ localizarPessoa cadastro = do
   print pessoa
 
 --função que recebe o cadastro de uma pessoa e atualiza suas informações na lista ou adiciona uma nova na ordem correta caso ela ainda não tenha sido cadastrada.
-busca :: Cadastro -> Pessoa -> Cadastro
-busca [] pessoa = [pessoa]
-busca (x : xs) pessoa
+buscar :: Cadastro -> Pessoa -> Cadastro
+buscar [] pessoa = [pessoa]
+buscar (x : xs) pessoa
   | nome pessoa == nome x = pessoa : xs
   | otherwise = x : busca xs pessoa
 
@@ -98,7 +98,7 @@ contarPessoas (x : xs) cidadeP
   | cidadeP == cidade (endereco x) = 1 + contarPessoas xs cidadeP
   | otherwise = contarPessoas xs cidadeP
   
-  
+
 relatorio :: Cadastro -> IO ()
 relatorio [] = do putStrLn "\nCADASTRO VAZIO"
 relatorio lista = do
@@ -109,9 +109,9 @@ relatorio lista = do
 
 
 --  função para apresentar a média de idade da população.
-somaIdade :: Cadastro -> Int
-somaIdade [] = 0
-somaIdade (x : xs) = idade x + somaIdade xs
+somarIdade :: Cadastro -> Int
+somarIdade [] = 0
+somarIdade (x : xs) = idade x + somaIdade xs
 
 media :: Cadastro -> Float
 media [] = 0
