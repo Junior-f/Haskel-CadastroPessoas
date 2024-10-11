@@ -7,6 +7,7 @@ data Pessoa = Pessoa
    ,endereco :: Endereco
   } deriving (Show, Eq)
 
+
 data Endereco = Endereco
   { rua :: String
    ,casa :: Int
@@ -14,13 +15,11 @@ data Endereco = Endereco
   } deriving (Show, Eq)
 
 
--- funçao para ordenar as pessoas na lista em ordem alfabetica
 
 ordenar :: Cadastro -> Cadastro
 ordenar [] = []
 ordenar (x : xs) = ordenar [e|e<-xs, nome e < nome x] ++ [x] ++ ordenar [e|e<-xs, nome e >= nome x]
 
--- funçao para inserir uma pessoa na lista
 
 inserirPessoa :: Cadastro -> IO Cadastro
 inserirPessoa cadastro = do
@@ -41,14 +40,11 @@ inserirPessoa cadastro = do
   return pessoaOrdenada
 
 
-
--- função para localizar uma determinada pessoa pelo seu nome.
-
-buscaPessoa :: Cadastro -> String -> [Pessoa]
-buscaPessoa [] _ = []
-buscaPessoa (x:xs) nomeP
+buscarPessoa :: Cadastro -> String -> [Pessoa]
+buscarPessoa [] _ = []
+buscarPessoa (x:xs) nomeP
   | nomeP == nome x = [x]
-  | otherwise = buscaPessoa xs nomeP
+  | otherwise = buscarPessoa xs nomeP
 
 localizarPessoa :: Cadastro -> IO ()
 localizarPessoa [] = do putStrLn "\nCADASTRO VAZIO"
@@ -56,26 +52,19 @@ localizarPessoa cadastro = do
   putStrLn "\n-------LOCALIZAR PESSOA-------"
   putStrLn "Digite o nome"
   nome <- getLine
-  let pessoa = buscaPessoa cadastro nome
+  let pessoa = buscarPessoa cadastro nome
   print pessoa
 
 
-
-
---função que recebe o cadastro de uma pessoa e atualiza suas informações na lista ou adiciona uma nova na ordem correta caso ela ainda não tenha sido cadastrada.
-
-busca :: Cadastro -> Pessoa -> Cadastro
-busca [] pessoa = [pessoa]
-busca (x : xs) pessoa
+buscar :: Cadastro -> Pessoa -> Cadastro
+buscar [] pessoa = [pessoa]
+buscar (x : xs) pessoa
   | nome pessoa == nome x = pessoa : xs
-  | otherwise = x : busca xs pessoa
+  | otherwise = x : buscar xs pessoa
 
 atualizarPessoa :: Cadastro -> Pessoa -> Cadastro
-atualizarPessoa cadastro pessoa = busca cadastro pessoa
+atualizarPessoa cadastro pessoa = buscar cadastro pessoa
 
--- Ao atualizar a pessoa ele faz diferenca de maiusculas e minusculas ex: Junior /= junior, ex: Maria /= maria
---não sao a mesma pessoa, e na ordenaçao tambem as maiusculas irao ficar na frente de todas as minusculas
--- ex Yuri ira ficar na frente de ana.
 
 atualizarDados :: Cadastro -> IO Cadastro
 atualizarDados cadastro = do
@@ -97,9 +86,6 @@ atualizarDados cadastro = do
   return pessoaOrdenada
 
 
-
---funçao para contar quantas pessoas moram em uma determinda cidade
-
 contarPessoas :: Cadastro -> String -> Int
 contarPessoas [] _ = 0
 contarPessoas (x : xs) cidadeP
@@ -117,14 +103,14 @@ relatorio lista = do
   print (contarPessoas lista cidadeP)
 
 
---  função para apresentar a média de idade da população.
-somaIdade :: Cadastro -> Int
-somaIdade [] = 0
-somaIdade (x : xs) = idade x + somaIdade xs
+
+somarIdade :: Cadastro -> Int
+somarIdade [] = 0
+somarIdade (x : xs) = idade x + somarIdade xs
 
 media :: Cadastro -> Float
 media [] = 0
-media lista = fromIntegral (somaIdade lista) / fromIntegral (length lista)
+media lista = fromIntegral (somarIdade lista) / fromIntegral (length lista)
 
 mostrarMedia :: Cadastro -> IO()
 mostrarMedia [] = do putStrLn "\nCADASTRO VAZIO"
@@ -132,8 +118,6 @@ mostrarMedia lista = do
     putStrLn "\n-------MEDIA IDADE DA POPULAÇAO-------"
     print (media lista)
 
-
---funçao para mostar a lista por ordem alfabetica de pessoas cadastradas.
 imprimir :: Cadastro -> IO ()
 imprimir [] = do putStrLn "\nCADASTRO VAZIO"
 imprimir lista = do
